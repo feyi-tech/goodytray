@@ -52,7 +52,7 @@ class ProductPage extends Component {
     }
 
     componentDidMount() {
-        //window.location.replace("#")
+        window.location.replace("#")
         var pathname = this.props.location.pathname
         pathname = pathname.endsWith("/")? pathname.substring(0, pathname.length - 1) : pathname
         const paths = pathname.split("/")
