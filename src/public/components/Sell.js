@@ -586,6 +586,7 @@ class Sell extends Component {
           <div className="container-fluid nav-container" style={{margin: "0px"}}>
             <div className="navbar-header">
               <a href="/" className="navbar-brand logo font-bask-normal text-left">
+              <img src="/public/logo.png" width="45" alt="logo" className="d-inline-block align-middle mr-2"/>
                 {SITE_NAME}
               </a>
             </div>

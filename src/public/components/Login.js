@@ -77,12 +77,13 @@ onChange(e) {
             //redirect to after after login page
             console.log("this.props.location: "+JSON.stringify(this.props.location))
             const queryValues = queryString.parse(this.props.location.search.substring(1))
-            console.log("this.props.location.search.values: "+JSON.stringify(queryValues))
+            console.log("LOGIN_REZ: "+res.data)
+            
             if(queryValues.next) {
-              window.location.href = decodeURI(queryValues.next)
+              //window.location.href = decodeURI(queryValues.next)
 
             } else {console.log("q2")
-              window.location.href = "/profile"
+              //window.location.href = "/profile"
             }
 
           } else if(res.form_errors != null) {

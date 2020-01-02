@@ -27,7 +27,9 @@ export const PAID_AD_NAME = "Boosted ad"
 export const SSL_KEY = null
 export const SSL_CHAIN = null
 export const SSL_DH = null
-export const SSL_SQL_KEY = null, SSL_SQL_CHAIN = null, SSL_SQL_CA = null
+export const SSL_SQL_KEY = null, 
+SSL_SQL_CHAIN = null, 
+SSL_SQL_CA = null
 export const DB_HOST = "goodytray"
 export const DB_USER = "root"
 export const DB_PASS = "{B@tinlo};94"

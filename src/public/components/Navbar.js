@@ -11,15 +11,22 @@ import queryString from 'querystring'
 class Navbar extends Component {
   constructor(props) {
     super(props)
-    this.state = props.user
+    //this.state = props.user
+    this.state = {
+      user: props.user,
+      collapsed: true
+    }
     this.onClick = this.onClick.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.handleSearch = this.handleSearch.bind(this)
+    this.toggleNavbar = this.toggleNavbar.bind(this)
+    this.closeNavbar = this.closeNavbar.bind(this)
   }
 
   componentDidMount() {
     console.log("mounted: "+JSON.stringify(this.state))
     console.log("mounted: "+JSON.stringify(this.props))
+    //this.setState({collapsed: true})
     var queryValues;
     if(this.props.location && this.props.location.search) {
       var queryValues = queryString.parse(this.props.location.search.substring(1))
@@ -48,6 +55,7 @@ class Navbar extends Component {
     e.preventDefault()
     if(this.state.search && this.state.search.length > 0) {
       this.props.history.push("/search?q="+this.state.search)
+      this.closeNavbar();
     }
   }
 
@@ -58,6 +66,14 @@ class Navbar extends Component {
   logOut() {
     $("#logoutform").submit()
 
+  }
+  toggleNavbar() {
+    this.setState({collapsed: !this.state.collapsed})
+  }
+  closeNavbar() {
+    if (!this.state.collapsed) {
+      this.toggleNavbar();
+    }
   }
   render() {
     const circleButtonStyle = {
@@ -81,18 +97,18 @@ class Navbar extends Component {
       stateLinks = (
         <ul className="nav navbar-nav b-app-header-user-bar navbar-right">
           <li className="nav-item">
-            <Link to="/login" className="h-flex-center">
+            <Link onClick={this.closeNavbar} to="/login" className="h-flex-center">
               Sign in
             </Link>
           </li>
           <li className="nav-item">
-            <Link to="/register" className="h-flex-center">
+            <Link onClick={this.closeNavbar} to="/register" className="h-flex-center">
               Registration
             </Link>
           </li>
           <li className="nav-item">
             <div className="h-width-120">
-              <Link to="/login" className="h-width-100p fw-button qa-fw-button fw-button--type-warning fw-button--size-medium">
+              <Link onClick={this.closeNavbar} to="/login" className="h-width-100p fw-button qa-fw-button fw-button--type-warning fw-button--size-medium">
                 <span className="fw-button__content">
                   <span className="fw-button__slot-wrapper">SELL</span>
                 </span>
@@ -107,22 +123,22 @@ class Navbar extends Component {
       stateLinks = (
         <ul className="nav navbar-nav b-app-header-user-bar navbar-right">
           <li className="nav-item">
-            <Link to="/profile" className="h-flex-center">
+            <Link onClick={this.closeNavbar} to="/profile" className="h-flex-center">
               Profile
             </Link>
           </li>
           <li className="nav-item">
-            <Link to="/messages" className="h-flex-center">
+            <Link onClick={this.closeNavbar} to="/messages" className="h-flex-center">
               Messages
             </Link>
           </li>
           <li className="nav-item">
-            <Link to="/notifications" className="hide h-flex-center">
+            <Link onClick={this.closeNavbar} to="/notifications" className="hide h-flex-center">
               Notifications
             </Link>
           </li>
           <li className="nav-item">
-            <Link to="/settings" className="h-flex-center">
+            <Link onClick={this.closeNavbar} to="/settings" className="h-flex-center">
               Settings
             </Link>
           </li>
@@ -151,17 +167,17 @@ class Navbar extends Component {
         <nav className="navbar b-app-header navbar-fixed-top">
           <div className="container-fluid nav-container">
             <div className="navbar-header">
-              <button type="button" className="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+              <button type="button" className="navbar-toggle" data-toggle="collapse"  onClick={this.toggleNavbar}>
                 <span className="icon-bar"></span>
                 <span className="icon-bar"></span>
                 <span className="icon-bar"></span>
               </button>
-              <Link to="/" className="navbar-brand logo font-bask-normal">
+              <Link onClick={this.closeNavbar} to="/" className="navbar-brand logo font-bask-normal">
                 <img src="/public/logo.png" width="45" alt="logo" className="d-inline-block align-middle mr-2"/>
                 <span>{SITE_NAME}</span>
               </Link>
             </div>
-            <div className="collapse navbar-collapse" id="myNavbar">
+            <div className={"collapse navbar-collapse"+(this.state.collapsed?"":" in")} id="myNavbar">
               <form style={{display: "inline-block", height: "40px", width:"100%"}} className={"md-w-up-2"+(HOME_PATHS.includes(this.props.location.pathname)?" md-hide-up":"")} onSubmit={this.handleSearch}>
                 <div className="input-group input-group-lg fw-search--rounded">
                   <input autoComplete="off" onChange={this.handleChange}
