@@ -80,10 +80,10 @@ onChange(e) {
             console.log("LOGIN_REZ: "+res.data)
             
             if(queryValues.next) {
-              //window.location.href = decodeURI(queryValues.next)
+              window.location.href = decodeURI(queryValues.next)
 
             } else {console.log("q2")
-              //window.location.href = "/profile"
+              window.location.href = "/profile"
             }
 
           } else if(res.form_errors != null) {
