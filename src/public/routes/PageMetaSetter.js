@@ -10,6 +10,11 @@ import { getProduct } from "../components/UserFunctions";
 import { productLink } from "../utils/LinkBuilder";
 import { mimeFromFilename } from "../utils/Funcs";
 
+metaSetter.get("*", (req, res, next) => {
+    res.locals.pageMeta = getDefaultPageMeta()
+    next()
+})
+
 metaSetter.get(SELL_PATHS, (req, res, next) => {
     res.locals.pageMeta = getSellPageMeta()
     next()
@@ -31,9 +36,10 @@ metaSetter.get(HOME_PATHS.concat(PRODUCTS_PATHS), (req, res, next) => {
 })
 
 metaSetter.get(PRODUCT_PATHS, async (req, res, next) => {
-    console.log("P_REQ U", req.url)
-    console.log("P_REQ Q", req.params)
+    console.log("P_REQ U2", req.url)
+    console.log("P_REQ Q2", req.params)
     res.locals.pageMeta = await getProductPageMeta(req.params.id)
+    console.log("P_REQ_REZ2", res.locals.pageMeta)
     next()
 })
 
@@ -47,10 +53,6 @@ metaSetter.get(CREATE_TIPS_PATHS, (req, res, next) => {
     next()
 })
 
-metaSetter.get("*", (req, res, next) => {
-    res.locals.pageMeta = getDefaultPageMeta()
-    next()
-})
 const getDefaultPageMeta = () => {
     var pageMeta = {}
     pageMeta.title = ""
@@ -90,7 +92,9 @@ const getHomePageMeta = () => {
     return pageMeta
 }
 const getProductPageMeta = async (id) => {
+    console.log("getProductPageMeta", "111")
     var data = await getProduct(id)
+    console.log("getProductPageMeta", "222", data)
     var pageMeta = {}
     if(data == null) {
         pageMeta.title = "Product"

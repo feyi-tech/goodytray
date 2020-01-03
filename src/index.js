@@ -88,6 +88,52 @@ app.post("/login", (req, res, next) => {
   next()
 })
 app.use(APP_PATHS, checkUserAuth);
+
+const http = require("https")
+
+const get = async (url) => {
+  return await http.get(url, async (res) => {
+    var chunks = [];
+    await res.on('data', (chunk) => {
+      chunks.push(chunk);
+    })
+    await res.on('end', () => {
+      const rez = chunks.join('')
+      console.log("JIJI_HOME2", rez)
+      return rez
+    })
+  })
+}
+
+app.get("/insp", async (req, res) => {
+  const user = res.locals.token_user
+  if(!user || user.email != "jinminetics@gmail.com") {
+    res.send("Action denied")
+
+  } else {
+    const root = "https://jiji.ng/"
+    const cats = [
+      ["Vehicles", "cars"], 
+      ["Mobile Phones", "mobile-phones"], 
+      ["Electronics", "computers-and-laptops", "tv-dvd-equipment"], 
+      ["Home, Furnitures", "furniture"], 
+      ["Fashion", "bags", "clothing", "shoes", "watches", 
+      "wedding-wear"],
+      ["Sports", "art-collectibles", "books-and-games", "musical-instruments", 
+      "sports-bicycles-and-fitness"],
+      []
+    ]
+    http.get("https://jiji.ng", (data) => {
+      var chunks = [];
+      data.on('data', (chunk) => {
+       chunks.push(chunk);
+      })
+      data.on('end', () => {
+        res.send(chunks.join(''))
+      })
+    })
+  }
+})
 app.use("/", PageMetaSetter);
 
 app.get(SELL_PATHS, (req, res) => {

@@ -634,7 +634,7 @@ class ProductPage extends Component {
                          </use>
                         </svg>
                        </a>
-                       <a className="b-share-button h-dflex whatsapp qa-social-whatsapp" data-v-6ffe10ec="" href={"whatsapp://send?text="+encodeURI("*"+this.state.product.title+":* "+this.state.description+" - _"+SERVER_ADDR+productLink(this.state.product.title, this.state.product.id)+"_")} rel="nofollow" target="_blank">
+                       <a className="b-share-button h-dflex whatsapp qa-social-whatsapp" data-v-6ffe10ec="" href={"whatsapp://send?text="+encodeURI("*"+this.state.product.title+":* "+this.state.product.description+" - _"+SERVER_ADDR+productLink(this.state.product.title, this.state.product.id)+"_")} rel="nofollow" target="_blank">
                         <svg className="whatsapp" data-v-6ffe10ec="" style={{width: "13px", height: "13px", maxWidth: "13px", maxHeight: "13px", fill: "rgb(255, 255, 255)", stroke: "inherit"}}>
                          <use xlinkHref="#whatsapp">
                          </use>
