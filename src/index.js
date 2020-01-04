@@ -1,3 +1,11 @@
+const dotenv = require('dotenv')
+const result = dotenv.config({ path: 'env/.env' })
+if (result.error) {
+  throw result.error
+}
+ 
+console.log("PROCESS_ENV_DATA", result.parsed)
+console.log("DB_PASS", process.env.DB_PASS)
 import compression from 'compression'
 import express from 'express'
 import path from 'path'
@@ -7,7 +15,6 @@ import { StaticRouter as Router } from 'react-router-dom'
 import MultipleRoutes from './public/components/MultipleRoutes'
 import MultipleRoutesLogin from './public/components/MultipleRoutesLogin'
 import SingleRoute from './public/components/SingleRoute'
-import {PORT, PORT_SSL, SSL_KEY, SSL_CHAIN, SSL_DH, LOGIN_SPAN_IN_SECONDS} from "./public/utils/Constants"
 import template from "./public/views/template"
 import templateSell from "./public/views/template-sell"
 
@@ -25,26 +32,22 @@ import Reviews from "./public/routes/Reviews"
 import PageMetaSetter from "./public/routes/PageMetaSetter"
 
 import {checkUserAuth, logOut} from "./public/components/UserFunctions"
-import {API_ROOT} from "./public/utils/Constants"
+import {API_ROOT, PORT, PORT_SSL} from "./public/utils/Constants"
 import {error400, error500} from "../src/public/utils/Errors"
 import { SELL_PATHS, APP_PATHS, LOGIN_PATHS } from './public/utils/RoutePaths'
-import { catLink } from './public/utils/LinkBuilder'
+
 import { truncText, sleep, randNum, genFilename } from './public/utils/Funcs'
-import { createSecureServer } from 'http2'
+
 import { EXCHANGE_RATE, urlToFileStream } from './public/utils/ExpressFunc'
 
 const browser = require("../src/public/utils/Browser")
-
-process.env.SECRET_KEY = "(*&*&RDCUFVV^54865VUY&^58^%$&^%GF^%"
-process.env.COOKIES_SECRET_KEY ="(*&*&RDCUFVV^54865VUY&^58^%$&^%GF^%"
 
 const app = express()
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const cookieParser = require('cookie-parser');
-const multer = require("multer")
 
-if(SSL_KEY && SSL_CHAIN) {
+if(process.env.SSL_KEY && process.env.SSL_CHAIN) {
   const helmet = require("helmet");
   app.use(helmet())
 }
@@ -443,16 +446,17 @@ app.get('*', (req, res) =>
     )
 )
 app.listen(PORT, () => console.log('Server running on port: ' + PORT))
-if(SSL_KEY && SSL_CHAIN) {
+if(process.env.SSL_KEY && process.env.SSL_CHAIN && process.env.SSL_KEY.length > 0 && process.env.SSL_CHAIN.length > 0) {
+  console.log("SAW", "YEAS")
   const https = require("https"),
   fs = require("fs");
 
   const options = {
-    key: fs.readFileSync(SSL_KEY),
-    cert: fs.readFileSync(SSL_CHAIN)
+    key: fs.readFileSync(process.env.SSL_KEY),
+    cert: fs.readFileSync(process.env.SSL_CHAIN)
   };
-  if(SSL_DH) {
-    options.dhparam = fs.readFileSync(SSL_DH)
+  if(process.env.SSL_DH && process.env.SSL_DH.length > 0) {
+    options.dhparam = fs.readFileSync(process.env.SSL_DH)
   }
   https.createServer(options, app).listen(PORT_SSL, () => console.log('Server running on ssl port: ' + PORT_SSL));
 }

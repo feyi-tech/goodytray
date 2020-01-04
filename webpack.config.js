@@ -7,7 +7,7 @@ const devMode = process.env.NODE_ENV !== 'production'?'development':'production'
 
 const js = {
   test: /\.js$/,
-  exclude: /node_modules/,
+  exclude: [/node_modules/],
   use: {
     loader: 'babel-loader',
     options: {
@@ -36,7 +36,7 @@ const css = {
 */
 const fonts = {
   test: /\.(woff|ttf|eot|svg|gif)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-  exclude: /node_modules/,
+  exclude: [/node_modules/],
   use: ['file-loader']
 }
 
