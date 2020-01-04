@@ -2,5 +2,4 @@ env/*
 node_modules/*
 ignore/*
 dist/*
-src/public/utils/Constants.js
 package-lock.json
