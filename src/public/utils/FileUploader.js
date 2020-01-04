@@ -1,4 +1,5 @@
 import {PRODUCTS_PHOTOS_SERVER_DIR, USERS_PHOTOS_SERVER_DIR} from "./Constants"
+import { genFilename } from "./Funcs"
 let multer = require('multer'), 
     uuidv4 = require('uuid/v4')
 
@@ -8,23 +9,12 @@ const fileUploader = {}
 
 const maxFileSize = 1024 * 1024 * 20//size in bytes
 
-const getExtFromMime = function(mime) {
-    if(mime == "image/jpeg" || mime == "image/jpg") {
-        return ".jpg"
-
-    } else if(mime == "image/png") {
-        return ".png"
-
-    } else {
-        return ""
-    }
-}
 const product_storage = multer.diskStorage({
     destination: function (req, file, cb) {
     cb(null, PRODUCTS_PHOTOS_SERVER_DIR)
   },
   filename: function (req, file, cb) {
-    const name =  uuidv4() + '-' + Date.now() + getExtFromMime(file.mimetype)
+    const name =  genFilename(file.mimetype)
     cb(null, name )
   }
 })
@@ -34,7 +24,7 @@ const user_storage = multer.diskStorage({
     cb(null, USERS_PHOTOS_SERVER_DIR)
   },
   filename: function (req, file, cb) {
-    const name =  uuidv4() + '-' + Date.now() + getExtFromMime(file.mimetype)
+    const name =  genFilename(file.mimetype)
     cb(null, name )
   }
 })

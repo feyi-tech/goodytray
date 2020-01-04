@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import { SITE_TITLE, API_ROOT, PAID_AD_NAME } from "../utils/Constants"
 import { productLink, catLink, catIconName, countryLink } from "../utils/LinkBuilder"
-import { commaNum, id, cls } from "../utils/Funcs"
+import { commaNum, id, overflows} from "../utils/Funcs"
 import { Link } from "react-router-dom"
 
 const browser = require("../utils/Browser")

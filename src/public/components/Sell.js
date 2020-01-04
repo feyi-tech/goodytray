@@ -271,6 +271,7 @@ class Sell extends Component {
 
     } else {
       product.price_currency_symbol = this.state.price_currency_symbol
+      console.log("product.price_currency_symbol", product.price_currency_symbol)
       product.price = parseInt(remove([",", "."], this.state.price))
     }
 

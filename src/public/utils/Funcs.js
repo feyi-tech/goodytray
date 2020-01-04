@@ -1,5 +1,34 @@
 import { SITE_DOT_COM, NO_PROFILE_PHOTO_IMAGE } from "./Constants"
+const uuidv4 = require('uuid/v4')
 
+export const overflows = (el) => {
+       var curOverflow = el.style.overflowY;
+       console.log("curOverflow", curOverflow, el, el.style)
+    
+       if ( !curOverflow || curOverflow === "visible" )
+          el.style.overflow = "hidden";
+    
+       var isOverflowing = el.clientWidth < el.scrollWidth 
+          || el.clientHeight < el.scrollHeight;
+    
+       el.style.overflow = curOverflow;
+       console.log("el.style.overflow", el.style.overflow, isOverflowing)
+       return true;//isOverflowing;
+}
+export const getExtFromMime = function(mime) {
+    if(mime == "image/jpeg" || mime == "image/jpg") {
+        return ".jpg"
+
+    } else if(mime == "image/png") {
+        return ".png"
+
+    } else {
+        return ""
+    }
+}
+export const genFilename = (mime) => {
+    return uuidv4() + '-' + Date.now() + getExtFromMime(mime)
+}
 export const remove = function(chrs, text) {
     text += ""
     while(text.includes(chrs[0]) || text.includes(chrs[1])) {
@@ -7,6 +36,10 @@ export const remove = function(chrs, text) {
     }
     return text
 }
+export const sleep = (milliseconds) => {
+    return new Promise(resolve => setTimeout(resolve, milliseconds))
+}
+  
 export const randNum = function (min, max) {
     return Math.floor(Math.random() * (max - min + 1) ) + min;
 }

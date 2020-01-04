@@ -21,7 +21,7 @@ const Sequelize = require("sequelize")
 const Op = Sequelize.Op
 
 import fs from "fs"
-import { nameToId, userDetails } from "../utils/ExpressFunc"
+import { nameToId, userDetails, EXCHANGE_RATE } from "../utils/ExpressFunc"
 
 const andQuery = function(query, filter) {
     return query.includes("WHERE")? query + " AND " + filter : query + " WHERE " + filter
@@ -436,7 +436,7 @@ const LOGO_MARGIN_PERCENTAGE = 5;
 
 products.post("/upload/photos", checkUserAuth, (req, res) => {
     if(!res.locals.token_user) {
-        res.redirect("/login")
+        res.json({auth_required: true})
 
     } else {
         const uploader = fileUploader.multipleProductUpload("file")
@@ -488,10 +488,9 @@ products.post("/upload/photos", checkUserAuth, (req, res) => {
 //upload products
 products.post("/upload", checkUserAuth,  (req, res) => {
     if(!res.locals.token_user) {
-        res.json({status: 5, message: "Login required"})
+        res.json({status: 5, message: "Login required", auth_required: true})
 
     } else {
-        const EXCHANGE_RATE = {["&#36;"]: 1, ["&#8358;"]: 360}
         const product = req.body.product
         const today = new Date()
         const form_errors = []

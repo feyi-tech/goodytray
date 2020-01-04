@@ -1,5 +1,5 @@
 import axios from "axios"
-import {ERROR_NET_UNKNOWN, SITE_NAME, SITE_TITLE, API_ROOT} from "../utils/Constants"
+import {ERROR_NET_UNKNOWN, SITE_NAME, SITE_TITLE, API_ROOT, LOGIN_SPAN_IN_SECONDS} from "../utils/Constants"
 const jwt = require("jsonwebtoken")
 const cookieParser = require('cookie-parser');
 import {PORT} from "../utils/Constants"
@@ -36,14 +36,18 @@ export const login = function(user) {
     })
 }
 
-export const logOut = function() {
-    return axios.post("api/v1/users/logout")
-    .then(res => {
-        return res.data
-    })
-    .catch(err => {
-        return null
-    })
+export const logOut = (req, res, next) => {
+    if(req.method.toLowerCase() == "post" && req.body.log_out == "ok") {
+        console.log("GOT LG")
+        res.cookie('login_token', "out", {
+            signed : true, 
+            maxAge: LOGIN_SPAN_IN_SECONDS,
+            httpOnly: true
+        })
+        res.redirect("/login")
+        
+    } else {console.log("GOT NOT LG URL", req.path, req.url, req.method.toLowerCase(), req.body.log_out)}
+    next()
 }
 
 export const uploadProduct = function(product) {

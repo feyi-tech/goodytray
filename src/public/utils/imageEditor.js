@@ -14,7 +14,7 @@ module.exports = {
         Jimp.read(LOGO_ADDR, (err, logo) => {
             console.log("TheFileX", "LOGO_ERROR", err)
             console.log("TheFileX", "LOGO", logo)
-            logo.opacity(0.5)
+            logo.opacity(0.7)
             _.forEach(files, (file)=>{
                 //Create a new promise for each image processing
                 console.log("TheFileX", file)

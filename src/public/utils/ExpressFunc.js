@@ -10,6 +10,30 @@ const Sequelize = require("sequelize")
 const Op = Sequelize.Op
 const db = require("../database/db")
 
+export const EXCHANGE_RATE = {["&#36;"]: 1, ["&#8358;"]: 360}
+
+const http = require("https")
+const Stream = require("stream").Transform
+export const urlToFileStream = async (url, includeMime) => {
+  
+    var promise = new Promise((resolve, reject) => {
+      var request = http.get(url);
+       
+      request.on("response", async (response) => {
+        //response.setEncoding('base64');
+        var data = new Stream()
+        response.on('data', (chunk) => {
+          data.push(chunk); 
+        })
+        response.on('end', () => {
+          var stream = data.read()
+          resolve(includeMime?[stream, response.headers['content-type']]:stream)
+            
+        })
+      })
+    })
+    return promise
+}
 export const userDetails = async (id) => {
     return await User.findOne({
         where: {

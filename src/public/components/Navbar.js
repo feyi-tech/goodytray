@@ -3,7 +3,6 @@ import { Link, withRouter } from "react-router-dom"
 //import { unlink } from "fs"
 import { isClientSide } from "../utils/Funcs"
 import {SITE_NAME} from "../utils/Constants"
-import { logOut } from './UserFunctions'
 import { HOME_PATHS } from "../utils/RoutePaths"
 import queryString from 'querystring'
 
@@ -143,7 +142,9 @@ class Navbar extends Component {
             </Link>
           </li>
           <li className="nav-item">
-            <form id="logoutform" method="post" url="/login"></form>
+            <form id="logoutform" method="post" action="/login">
+              <input type="hidden" name="log_out" value="ok"/>
+            </form>
             <a href="javascript:void(0)" onClick={this.logOut} className="h-flex-center">
               Logout
             </a>

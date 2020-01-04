@@ -20,7 +20,7 @@ metaSetter.get(SELL_PATHS, (req, res, next) => {
     next()
 })
 
-metaSetter.get(LOGIN_PATHS, (req, res, next) => {
+metaSetter.use(LOGIN_PATHS, (req, res, next) => {
     res.locals.pageMeta = getLoginPageMeta()
     next()
 })
@@ -69,7 +69,7 @@ const getSellPageMeta = () => {
     pageMeta.url = "https://goodytray.com/sell"
     return pageMeta
 }
-const getLoginPageMeta = () => {
+export const getLoginPageMeta = () => {
     var pageMeta = {}
     pageMeta.title = "Login"
     pageMeta.description = "Sell faster and easier"
