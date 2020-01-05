@@ -880,7 +880,7 @@ class ProductPage extends Component {
                             :
                             <div className="b-list-advert__item-wrapper" key={index}>
                             <div className="b-list-advert__item qa-advert-list-item animate" data-advert_id="16802192" data-v-9681c3a6="">
-                             <Link className="js-handle-click-ctr js-advert-link b-list-advert__template" data-v-9681c3a6="" to={productLink(ad.title, ad.id)}>
+                             <a className="js-handle-click-ctr js-advert-link b-list-advert__template" data-v-9681c3a6="" href={productLink(ad.title, ad.id)}>
                               <div className="b-list-advert__template-img" data-v-9681c3a6="">
                                <span className="b-list-advert__item-image js-advert-link" data-v-9681c3a6="">
                                 <img data-v-9681c3a6="" src={ad.photos.split(",")[0].trim()}/>
@@ -959,7 +959,7 @@ class ProductPage extends Component {
                                 </div>
                                </div>
                               </div>
-                             </Link>
+                             </a>
                             </div>
                            </div>
                            ))

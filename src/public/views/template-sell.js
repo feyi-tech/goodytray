@@ -18,7 +18,7 @@ export default ({ body, initialData }) => {
       
       <meta charset="utf-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
-      <meta name="theme-color" content="#000000" />
+      <meta name="theme-color" content="#70b93f" />
       <link rel="apple-touch-icon" href="/public/logo.png" />
       <meta name="application-name" content="${SITE_NAME}">
       ${

@@ -147,7 +147,9 @@ app.get("/insp", async (req, res) => {
           json = JSON.parse(data)
         }
 
-        var sliced = json.slice(0, 2)
+        var sliced = json.slice(200)
+        console.log("JSON_SIZE", json.length)
+        console.log("SLICED_SIZE", sliced.length)
   
         for(var i = 0; i < sliced.length; i++) {
           var advert = sliced[i]
@@ -216,7 +218,9 @@ const saveSubcatProducts = async (catId, subCatId, subCatLink, res, isLast) => {
             fs.writeFile("json/result.json", JSON.stringify(json), function(err){
               if (err) throw err;
               console.log('The "data to append" was appended to file!');
-              if(isLast) {res.json({data: json})}
+              if(isLast) {
+                console.log("COMPLETED");//res.json({data: json})
+              }
             });
           }
         })
@@ -339,20 +343,11 @@ const saveProductFromJson = async (user, json, catId, subCatId, subCatLink, res,
           }
           var product = await Product.create(product);
           if(isLast) {
-            res.json({completed: true, product: product, error: null})
+            console.log("ProductAddComplete", {completed: true, product: product, error: null})
 
           } else {
             console.log("ProductAdded", {completed: true, product: product, error: null})
           }
-          /*
-          .then(prod => {
-            if(isLast) {
-              res.json({completed: true, error: null})
-            }
-          })
-          .catch(e => {
-              res.json({completed: true, error: err})
-          })*/
 
         }
 }

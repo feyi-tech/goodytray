@@ -263,6 +263,7 @@ products.get("/", async function(req, res) {
 
 //get products counts by category and sub category
 products.get("/cats_and_sub_cats", (req, res) => {
+    var q = "SELECT cats.id, cat.name, sub_cats.id as sub_cat_id"
     db.sequelize.query("SELECT sub_cats.*, cats.name as cat_name FROM sub_cats, cats WHERE sub_cats.cat_id = cats.id ORDER BY cat_id ASC", {
         replacements: [],
         raw: false, 
@@ -270,19 +271,25 @@ products.get("/cats_and_sub_cats", (req, res) => {
     })
     .then(cats => {
         const catsAndSubCats = []
-        var first = false;
-        var i = 0; var cat_id = -1; var cat_name = null; var sub_cats = [];
-        while(i < cats.length) {
-            if(cats[i].cat_id != cat_id && sub_cats.length > 0) {first = true;
-                catsAndSubCats.push({id: cat_id, name: cat_name, sub_cats: sub_cats})
-                sub_cats = []
-
+        var lastCatId = -1
+        var current = null
+        for(var i = 0; i < cats.length; i++) {
+            if(lastCatId != cats[i].cat_id) {
+                if(current) {
+                    catsAndSubCats.push(current)
+                }
+                current = {}
+                current.id = cats[i].cat_id
+                current.name = cats[i].cat_name
+                current.sub_cats = []
+                current.sub_cats.push({id: cats[i].id, name: cats[i].name})
+                lastCatId = cats[i].cat_id
+            } else {
+                current.sub_cats.push({id: cats[i].id, name: cats[i].name})
             }
-            cat_id = cats[i].cat_id
-            cat_name = cats[i].cat_name
-            sub_cats.push({id: cats[i].id, name: cats[i].name})
-            i++;
-
+        }
+        if(current) {
+            catsAndSubCats.push(current)
         }
         res.json(catsAndSubCats)
         

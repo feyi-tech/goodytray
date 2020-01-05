@@ -53,8 +53,8 @@ class Navbar extends Component {
   handleSearch = (e) => {
     e.preventDefault()
     if(this.state.search && this.state.search.length > 0) {
-      this.props.history.push("/search?q="+this.state.search)
-      this.closeNavbar();
+      document.location.href = "/search?q="+this.state.search
+      //this.closeNavbar();
     }
   }
 
